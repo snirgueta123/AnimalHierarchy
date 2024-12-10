@@ -1,57 +1,66 @@
-# AnimalHierarchy
+# Animal Hierarchy
 
-**AnimalHierarchy** is a Java-based program that models a hierarchy of animals, demonstrating key principles of Object-Oriented Programming (OOP). The program allows users to explore animal behaviors, manage ownership, and showcase polymorphism and inheritance.
-
----
-
-## Table of Contents
-1. [Features](#features)
-2. [Installation and Setup](#installation-and-setup)
-3. [How It Works](#how-it-works)
-4. [Example Usage](#example-usage)
-5. [Future Improvements](#future-improvements)
+This project demonstrates an object-oriented approach to modeling animals and their behaviors. The program includes an animal hierarchy, polymorphism, cloning, and more. Additionally, it now features a GUI for dynamic management of animals.
 
 ---
 
 ## Features
 
-### 1. Animal Hierarchy
-- Implements a multi-level class structure:
-  - `Animal` (base class)
-  - `Mammal`, `Bird`, `Reptile` (intermediate classes)
-  - Specific animals like `Dog`, `Cat`, `Parrot`, `Snake`, etc.
-- Each animal has shared attributes:  
-  `name`, `age`, and `color`.  
-
-### 2. Unique Behaviors
-- Common methods:  
-  - **`eat()`**: Each animal type has its own eating behavior.  
-  - **`sleep()`**: Custom sleep behavior for each animal.  
-- Unique methods:
-  - Birds can **`fly()`**.
-  - Reptiles can **`crawl()`**.
-  - Dogs can **`bark()`**.
-
-### 3. Ownership
-- Some animals (e.g., dogs, cats) have an associated `Owner` object with attributes:  
-  - `name`  
-  - `phone`.  
-
-### 4. Polymorphism
-- Demonstrates polymorphism using an `ArrayList` to store multiple types of animals.
-- Iterates through the list, calling shared and type-specific methods dynamically.
-
-### 5. Deep Cloning and Equality
-- Overrides **`equals()`**: Compares animals based on their attributes.  
-- Implements deep cloning in **`clone()`**, ensuring independence between original and cloned animals.  
-
-### 6. User Interaction
-- Simulates actions like feeding animals, invoking their unique behaviors, and managing owners.
+- **Animal Hierarchy**: Classes represent different animal types (e.g., Mammals, Birds) with inheritance and abstraction.
+- **Custom Behaviors**: Override methods like `eat()` and `sleep()` for specific animals.
+- **Owner Management**: Add and manage owners for specific animals.
+- **Polymorphism**: Demonstrated through an ArrayList of animals with shared and unique methods.
+- **Cloning**: Deep cloning of animals with unique attributes.
+- **Dynamic User Input (GUI)**: Using JavaFX, users can dynamically add animals and view their details.
 
 ---
 
-## Installation and Setup
+## GUI Explanation
 
-1. **Clone the repository**:  
-   ```bash
-   git clone https://github.com/yourusername/AnimalHierarchy.git
+The program includes a graphical interface (GUI) for managing animals dynamically. This feature uses **JavaFX** to allow users to input animal details and view a list of animals.
+
+### Components in the GUI
+
+1. **TextFields**: Input fields for:
+   - Animal Name
+   - Animal Age
+   - Animal Color
+
+2. **ComboBox**:
+   - Allows selection of the animal type (e.g., Dog, Cat, Parrot).
+
+3. **Button**:
+   - A button to add the entered animal to the list.
+
+4. **ListView**:
+   - Displays a list of added animals with their details.
+
+### Code Walkthrough
+
+#### Adding an Animal
+The `addButton` event listener gathers input from the user, validates it, and adds the new animal to the list:
+
+```java
+addButton.setOnAction(e -> {
+    String name = nameField.getText();
+    String age = ageField.getText();
+    String color = colorField.getText();
+    String type = typeBox.getValue();
+
+    if (name.isEmpty() || age.isEmpty() || color.isEmpty() || type == null) {
+        showAlert("Error", "Please fill all fields.");
+        return;
+    }
+
+    try {
+        int parsedAge = Integer.parseInt(age);
+        String animal = String.format("%s (Type: %s, Age: %d, Color: %s)", name, type, parsedAge, color);
+        animalList.add(animal);
+        nameField.clear();
+        ageField.clear();
+        colorField.clear();
+        typeBox.setValue(null);
+    } catch (NumberFormatException ex) {
+        showAlert("Error", "Age must be a number.");
+    }
+});
